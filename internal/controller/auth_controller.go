@@ -8,20 +8,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	models "github.com/paola/proyecto_go/internal/models"
 )
 
-// creando el json para el http
-type Login struct {
-	Username string `json:"username" binding:"required,email"`
-	Password string `json:"password" binding:"required"`
-}
-
-type AuthResponse struct {
-	Token string `json:"auth_token"`
-}
-
-func startPage(c *gin.Context) {
-	var login Login
+func StartPage(c *gin.Context) {
+	var login models.Login
 	// If `GET`, only `Form` binding engine (`query`) used.
 	// If `POST`, first checks the `content-type` for `JSON` or `XML`, then uses `Form` (`form-data`).
 	// See more at https://github.com/gin-gonic/gin/blob/master/binding/binding.go#L48
@@ -67,7 +58,7 @@ func startPage(c *gin.Context) {
 	}
 
 	// Mapear el JSON a la estructura AuthResponse
-	var authResp AuthResponse
+	var authResp models.AuthResponse
 	if err := json.Unmarshal(body, &authResp); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al parsear respuesta JSON"})
 		return
@@ -75,6 +66,6 @@ func startPage(c *gin.Context) {
 
 	// Enviar el token recibido al cliente
 
-	listpage(authResp.Token, c)
-	//c.JSON(http.StatusOK, gin.H{"auth_token": authResp.Token})
+	//listpage(authResp.Token, c)
+	c.JSON(http.StatusOK, gin.H{"auth_token": authResp.Token})
 }

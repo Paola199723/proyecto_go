@@ -1,4 +1,4 @@
-package config
+package configuration
 
 import (
 	"fmt"
@@ -11,20 +11,24 @@ import (
 var DataBase *gorm.DB
 
 // Conexión a la base de datos
-func connectDB() {
+func ConnectDB() {
 	dsn := "postgresql://paola:BPYlCMSt9BFE7oFW0RpLBw@cuter-example-8394.j77.aws-us-east-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	var err error
+	DataBase, err = gorm.Open(postgres.Open(dsn), &gorm.Config{}) // 🔥 Se asigna correctamente
+
 	if err != nil {
 		log.Fatal("Error al conectar a la base de datos:", err)
 	}
-	fmt.Println("✅ Conectado a CockroachDB")
 
+	fmt.Println("✅ Conectado a CockroachDB")
 	// Migrar la estructura a la base de datos (Crea la tabla si no existe)
-	db.AutoMigrate(&ListResponse{})
-	DataBase = db
+	//DataBase.AutoMigrate(&models.ListResponse{})
+
 }
 
-func getDB() *gorm.DB {
-
+func GetDB() *gorm.DB {
+	if DataBase == nil {
+		log.Fatal("❌ Error: La base de datos no está inicializada. ¿Llamaste ConnectDB() en main.go?")
+	}
 	return DataBase
 }
