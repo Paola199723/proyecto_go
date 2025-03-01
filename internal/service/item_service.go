@@ -48,14 +48,19 @@ func FetchAndStoreItems(request ListPageRequest, nextPage string) (models.StockR
 
 	// Mapear el JSON a la estructura StockResponse
 	var authResplist models.StockResponse
+
 	if err := json.Unmarshal(body, &authResplist); err != nil {
 		return models.StockResponse{}, err
 	}
 
 	// Guardar en la base de datos
 	db := configuration.GetDB()
-	for _, stock := range authResplist.Items {
-		db.FirstOrCreate(&stock, models.ListResponse{Ticker: stock.Ticker, Time: stock.Time})
+
+	if len(authResplist.Items) > 0 {
+		for _, stock := range authResplist.Items {
+			db.FirstOrCreate(&stock, models.ListResponse{Ticker: stock.Ticker, Time: stock.Time})
+		}
+		// 🔥 No intenta guardar si la lista está vacía
 	}
 
 	return authResplist, nil

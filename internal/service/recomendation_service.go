@@ -18,8 +18,9 @@ func CleanAndConvert(priceStr string) float64 {
 	price, err := strconv.ParseFloat(cleanedStr, 64)
 	if err != nil {
 		log.Printf("Error al convertir %s a float: %v", priceStr, err)
-		return 0
+		return -1 // 🔥 Devolver un valor especial en lugar de 0
 	}
+
 	return price
 }
 
