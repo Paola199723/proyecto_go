@@ -7,6 +7,8 @@ require (
 	gorm.io/gorm v1.25.12
 )
 
+require github.com/go-resty/resty/v2 v2.16.5 // indirect
+
 require (
 	github.com/bytedance/sonic v1.12.9 // indirect
 	github.com/bytedance/sonic/loader v0.2.3 // indirect
