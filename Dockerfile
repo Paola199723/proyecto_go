@@ -1,28 +1,36 @@
-# Imagen base con Go
+# Etapa de compilación
 FROM golang:1.24-alpine AS builder
 
+# Instalar dependencias necesarias
+RUN apk add --no-cache curl busybox-extras
 
 # Definir directorio de trabajo
 WORKDIR /app
 
-# Copiar solo los archivos de dependencias primero (optimiza caché de Docker)
+# Copiar archivos de dependencias primero (optimiza caché de Docker)
 COPY go.mod go.sum ./
-
-# Descargar dependencias antes de copiar el código
 RUN go mod tidy && go mod download && go mod verify
-RUN apk add --no-cache curl
-RUN apk add --no-cache busybox-extras
 
-
-# Copiar el resto del código del proyecto
+# Copiar el código fuente
 COPY . .
 
-# Verificar si cmd/main.go existe antes de compilar (para debugging)
-RUN ls -l ./cmd/
+# Verificar si el directorio cmd/ existe antes de compilar
+RUN test -d ./cmd/ || (echo "Directorio cmd/ no encontrado" && exit 1)
 
-# Construir el binario
+# Compilar el binario
 RUN go build -o main ./cmd/main.go
 
-# Seg
-CMD ["/app/main"]
+# Etapa final (ejecución en imagen mínima)
+FROM alpine:latest
 
+# Definir directorio de trabajo
+WORKDIR /app
+
+# Copiar solo el binario compilado desde la etapa anterior
+COPY --from=builder /app/main .
+
+# Permitir ejecución del binario
+RUN chmod +x ./main
+
+# Comando por defecto
+CMD ["/app/main"]
