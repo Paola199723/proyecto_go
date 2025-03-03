@@ -83,13 +83,13 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition.json
-        container-name: proyecto_go_app
+        container-name: mi-backend
         image: ${{ steps.build-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: proyecto_go_servise
+        service: proyecto_go_cluster
         cluster: proyecto_go_cluster
         wait-for-service-stability: true
