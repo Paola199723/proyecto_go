@@ -9,7 +9,7 @@ COPY go.mod go.sum ./
 
 # Descargar dependencias antes de copiar el código
 RUN go mod tidy && go mod download && go mod verify
-RUN yum install http -y
+RUN apk add --no-cache curl
 
 # Copiar el resto del código del proyecto
 COPY . .
