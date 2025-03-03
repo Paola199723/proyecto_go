@@ -9,7 +9,7 @@ COPY go.mod go.sum ./
 
 # Descargar dependencias antes de copiar el código
 RUN go mod tidy && go mod download && go mod verify
-RUN apk add --no-cache curl
+RUN apt-get update && apt-get install -y curl
 
 # Copiar el resto del código del proyecto
 COPY . .
