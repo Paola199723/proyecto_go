@@ -23,7 +23,7 @@
             "systemControls": []
         }
     ],
-    "family": "proyecto_go",
+    "family": "proyecto_go_aws",
     "executionRoleArn": "arn:aws:iam::571600844261:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "revision": 2,
