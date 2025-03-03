@@ -20,7 +20,7 @@ func ConnectDB() {
 		log.Fatal("Error al conectar a la base de datos:", err)
 	}
 
-	fmt.Println("✅ Conectado a CockroachDB")
+	fmt.Println(" Conectado a CockroachDB")
 	// Migrar la estructura a la base de datos (Crea la tabla si no existe)
 	//DataBase.AutoMigrate(&models.ListResponse{})
 
@@ -28,7 +28,7 @@ func ConnectDB() {
 
 func GetDB() *gorm.DB {
 	if DataBase == nil {
-		log.Fatal("❌ Error: La base de datos no está inicializada. ¿Llamaste ConnectDB() en main.go?")
+		log.Fatal("Error: La base de datos no está inicializada. ¿Llamaste ConnectDB() en main.go?")
 	}
 	return DataBase
 }
