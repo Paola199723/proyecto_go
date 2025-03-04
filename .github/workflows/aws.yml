@@ -92,4 +92,4 @@ jobs:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: proyecto_go_service2
         cluster: proyecto_go_cluster2
-        wait-for-service-stability: false
+        wait-for-service-stability: true
