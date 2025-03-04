@@ -90,6 +90,6 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: proyecto_go_cluster
-        cluster: proyecto_go_cluster
+        service: proyecto_go_service2
+        cluster: proyecto_go_cluster2
         wait-for-service-stability: true
