@@ -13,6 +13,6 @@ func main() {
 	route.POST("/user/login", controller.StartPage)
 	route.GET("/user/stocks", controller.Listpage)
 	route.GET("/user/recomendations", controller.RecomendationsList)
-	route.Run("0.0.0.0:8080")
-	//route.Run(":8080")
+	//route.Run("0.0.0.0:8080")
+	route.Run(":8080")
 }
